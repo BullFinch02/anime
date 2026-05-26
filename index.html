@@ -1,1 +1,1667 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AniméVF — Catalogue Complet Voix Française</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bangers&family=Nunito:wght@400;600;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0d0d0f;
+    --paper: #faf7f2;
+    --red: #e8162a;
+    --red-dark: #a50f1d;
+    --yellow: #ffd600;
+    --blue: #1a2fff;
+    --panel: #fff;
+    --border: 3px solid var(--ink);
+    --shadow: 5px 5px 0 var(--ink);
+    --radius: 4px;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Nunito', sans-serif;
+    min-height: 100vh;
+    background-image:
+      repeating-linear-gradient(0deg, transparent, transparent 39px, rgba(0,0,0,.04) 39px, rgba(0,0,0,.04) 40px),
+      repeating-linear-gradient(90deg, transparent, transparent 39px, rgba(0,0,0,.04) 39px, rgba(0,0,0,.04) 40px);
+  }
 
+  /* HEADER */
+  header {
+    background: var(--ink);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    border-bottom: 4px solid var(--red);
+  }
+  .header-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+    height: 64px;
+  }
+  .logo {
+    font-family: 'Bangers', cursive;
+    font-size: 2rem;
+    letter-spacing: 2px;
+    color: var(--yellow);
+    text-shadow: 3px 3px 0 var(--red);
+    flex-shrink: 0;
+    line-height: 1;
+  }
+  .logo span { color: #fff; }
+  .search-wrap { flex: 1; max-width: 480px; position: relative; }
+  .search-wrap input {
+    width: 100%;
+    background: #1a1a1f;
+    border: 2px solid #444;
+    color: #fff;
+    padding: .6rem 1rem .6rem 2.8rem;
+    border-radius: 999px;
+    font-family: 'Nunito', sans-serif;
+    font-size: .95rem;
+    outline: none;
+    transition: border-color .2s;
+  }
+  .search-wrap input:focus { border-color: var(--yellow); }
+  .search-wrap input::placeholder { color: #555; }
+  .search-ico { position: absolute; left: .9rem; top: 50%; transform: translateY(-50%); color: #555; pointer-events: none; }
+  .header-badge {
+    background: var(--red);
+    color: #fff;
+    font-weight: 700;
+    font-size: .72rem;
+    padding: .22rem .65rem;
+    border-radius: 999px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-left: auto;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  /* PROGRESS */
+  .progress-wrap {
+    background: var(--ink);
+    padding: .55rem 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  .progress-track { flex: 1; height: 7px; background: #2a2a2f; border-radius: 4px; overflow: hidden; max-width: 360px; }
+  .progress-fill { height: 100%; background: var(--yellow); border-radius: 4px; transition: width .4s ease; width: 0%; }
+  .progress-text { color: #888; font-size: .78rem; white-space: nowrap; }
+  .progress-count { color: var(--yellow); font-weight: 700; font-family: 'Bangers', cursive; font-size: 1.05rem; letter-spacing: 1px; }
+  .progress-wrap.hidden { display: none; }
+  .stop-btn {
+    background: none; border: 1.5px solid #555; color: #888;
+    padding: .25rem .7rem; border-radius: 3px;
+    font-family: 'Nunito', sans-serif; font-weight: 700; font-size: .72rem;
+    cursor: pointer; transition: all .15s; white-space: nowrap;
+  }
+  .stop-btn:hover { border-color: var(--red); color: var(--red); }
+  .resume-bar {
+    background: #1a1a1f;
+    padding: .45rem 1.5rem;
+    display: none;
+    align-items: center;
+    gap: .8rem;
+    border-bottom: 2px solid #333;
+  }
+  .resume-bar.visible { display: flex; }
+  .resume-bar-text { color: #888; font-size: .8rem; }
+  .resume-bar-text strong { color: var(--yellow); }
+  .resume-bar-btn {
+    background: #22c55e; border: 1.5px solid #16a34a; color: #fff;
+    padding: .3rem .9rem; border-radius: 3px;
+    font-family: 'Nunito', sans-serif; font-weight: 700; font-size: .78rem;
+    cursor: pointer; transition: all .15s; white-space: nowrap;
+  }
+  .resume-bar-btn:hover { background: #16a34a; }
+  .resume-discard-btn {
+    background: none; border: 1.5px solid #555; color: #666;
+    padding: .3rem .9rem; border-radius: 3px;
+    font-family: 'Nunito', sans-serif; font-weight: 700; font-size: .72rem;
+    cursor: pointer; transition: all .15s; white-space: nowrap;
+  }
+  .resume-discard-btn:hover { border-color: var(--red); color: var(--red); }
+
+  /* HERO */
+  .hero {
+    background: var(--ink);
+    color: #fff;
+    padding: 2rem 1.5rem 1.8rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(-45deg, transparent, transparent 20px, rgba(232,22,42,.07) 20px, rgba(232,22,42,.07) 21px);
+  }
+  .hero-content { position: relative; z-index: 1; }
+  .hero h1 {
+    font-family: 'Bangers', cursive;
+    font-size: clamp(2.4rem, 6vw, 4.2rem);
+    letter-spacing: 4px;
+    line-height: 1;
+    color: var(--yellow);
+    text-shadow: 4px 4px 0 var(--red), 8px 8px 0 rgba(232,22,42,.25);
+    margin-bottom: .4rem;
+  }
+  .hero p { font-size: .95rem; color: #888; max-width: 500px; margin: 0 auto 1.1rem; }
+  .hero-stats { display: flex; gap: 1.2rem; justify-content: center; flex-wrap: wrap; }
+  .stat {
+    text-align: center;
+    background: rgba(255,255,255,.05);
+    border: 1px solid rgba(255,255,255,.1);
+    padding: .45rem 1rem;
+    border-radius: var(--radius);
+    min-width: 80px;
+  }
+  .stat-num { font-family: 'Bangers', cursive; font-size: 1.6rem; color: var(--yellow); letter-spacing: 1px; }
+  .stat-label { font-size: .65rem; color: #777; text-transform: uppercase; letter-spacing: 1px; }
+
+  /* FILTRES */
+  .filters-section {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 1rem 1.5rem .2rem;
+  }
+  .filter-group { margin-bottom: .7rem; display: flex; align-items: center; gap: .5rem; flex-wrap: wrap; }
+  .filter-group-label {
+    font-weight: 900;
+    font-size: .72rem;
+    color: #999;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    min-width: 62px;
+    flex-shrink: 0;
+  }
+  .filter-pills { display: flex; gap: .4rem; flex-wrap: wrap; flex: 1; }
+  .fpill {
+    background: var(--panel);
+    border: 2px solid var(--ink);
+    padding: .28rem .75rem;
+    border-radius: 999px;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 700;
+    font-size: .78rem;
+    cursor: pointer;
+    transition: all .13s;
+    box-shadow: 2px 2px 0 var(--ink);
+    white-space: nowrap;
+    user-select: none;
+  }
+  .fpill:hover { transform: translate(-1px,-1px); box-shadow: 3px 3px 0 var(--ink); }
+  .fpill.active { background: var(--red); color: #fff; border-color: var(--red-dark); box-shadow: 2px 2px 0 var(--red-dark); }
+  .fpill.theme.active { background: var(--blue); border-color: #0010c0; box-shadow: 2px 2px 0 #0010c0; }
+  .fpill.news.active { background: #7c3aed; border-color: #5b21b6; box-shadow: 2px 2px 0 #5b21b6; color: #fff; }
+
+  .toolbar-right {
+    display: flex;
+    align-items: center;
+    gap: .6rem;
+    margin-left: auto;
+    flex-shrink: 0;
+  }
+  .sort-select {
+    background: var(--panel);
+    border: 2px solid var(--ink);
+    padding: .28rem .7rem;
+    border-radius: 4px;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 700;
+    font-size: .78rem;
+    cursor: pointer;
+    box-shadow: 2px 2px 0 var(--ink);
+    outline: none;
+  }
+  .refresh-btn {
+    background: none; border: 2px solid #bbb; color: #777;
+    padding: .28rem .75rem; border-radius: 3px;
+    font-family: 'Nunito', sans-serif; font-weight: 700; font-size: .75rem;
+    cursor: pointer; display: flex; align-items: center; gap: .3rem;
+    transition: all .15s;
+  }
+  .refresh-btn:hover { border-color: var(--yellow); color: var(--ink); }
+  .spin { display: inline-block; }
+  .spinning { animation: spin .7s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* GRILLE */
+  .main { max-width: 1280px; margin: 0 auto; padding: .7rem 1.5rem 3rem; }
+  .section-title {
+    font-family: 'Bangers', cursive;
+    font-size: 1.7rem;
+    letter-spacing: 2px;
+    margin-bottom: .8rem;
+    display: flex;
+    align-items: center;
+    gap: .7rem;
+  }
+  .section-title::after { content: ''; flex: 1; height: 3px; background: var(--ink); }
+
+  .anime-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1.1rem;
+  }
+
+  /* CARTE */
+  .card {
+    background: var(--panel);
+    border: var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform .15s, box-shadow .15s;
+    display: flex;
+    flex-direction: column;
+  }
+  .card:hover { transform: translate(-3px,-3px); box-shadow: 8px 8px 0 var(--ink); }
+
+  .card-img-wrap { position: relative; flex-shrink: 0; }
+  .card-img {
+    width: 100%;
+    aspect-ratio: 2/3;
+    object-fit: cover;
+    display: block;
+    background: #e0ddd6;
+  }
+  .card-img-ph {
+    width: 100%;
+    aspect-ratio: 2/3;
+    background: linear-gradient(135deg, #1a1a2e, #0f3460);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Bangers', cursive;
+    font-size: 2.5rem;
+    color: rgba(255,255,255,.12);
+  }
+  .vf-badge {
+    position: absolute;
+    top: .4rem; left: .4rem;
+    background: var(--red);
+    color: #fff;
+    font-weight: 900;
+    font-size: .62rem;
+    padding: .12rem .4rem;
+    letter-spacing: 1px;
+    border: 2px solid var(--ink);
+    border-radius: 3px;
+  }
+  .score-badge {
+    position: absolute;
+    top: .4rem; right: .4rem;
+    background: var(--yellow);
+    color: var(--ink);
+    font-weight: 900;
+    font-size: .68rem;
+    padding: .12rem .4rem;
+    border: 2px solid var(--ink);
+    border-radius: 3px;
+  }
+
+  /* Corps de la carte — contient titre + accroche + tags */
+  .card-body {
+    padding: .6rem .7rem .65rem;
+    display: flex;
+    flex-direction: column;
+    gap: .35rem;
+    flex: 1;
+  }
+  .card-title {
+    font-weight: 900;
+    font-size: .88rem;
+    line-height: 1.25;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  /* ★ L'ACCROCHE — visible directement sur la carte */
+  .card-synopsis {
+    font-size: .75rem;
+    color: #555;
+    line-height: 1.45;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    flex: 1;
+  }
+  .card-meta { display: flex; gap: .3rem; flex-wrap: wrap; margin-top: auto; padding-top: .25rem; }
+  .tag {
+    background: #f0ede6;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    font-size: .6rem;
+    font-weight: 700;
+    padding: .07rem .32rem;
+    color: #555;
+    text-transform: uppercase;
+    letter-spacing: .4px;
+  }
+  .tag.year { background: var(--blue); color: #fff; border-color: #000a; }
+  .tag.eps  { background: var(--ink); color: #fff; border-color: var(--ink); }
+  .tag.type { background: #e8162a22; color: var(--red-dark); border-color: #e8162a44; }
+
+  /* SKELETON */
+  .sk { animation: pulse 1.4s ease-in-out infinite; }
+  .sk-img { width: 100%; aspect-ratio: 2/3; background: #e0ddd6; }
+  .sk-line { height: 11px; background: #e0ddd6; border-radius: 3px; margin-bottom: .32rem; }
+  .sk-line.sm { width: 60%; }
+  .sk-line.xs { width: 40%; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.45} }
+
+  /* MODAL */
+  .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.8); z-index: 200; align-items: center; justify-content: center; padding: 1.5rem; }
+  .modal-overlay.open { display: flex; }
+  .modal {
+    background: var(--paper);
+    border: var(--border);
+    border-radius: var(--radius);
+    box-shadow: 10px 10px 0 var(--ink);
+    max-width: 680px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+  }
+  .modal-close { position: sticky; top: 0; float: right; background: var(--red); color: #fff; border: none; width: 36px; height: 36px; font-size: 1.1rem; cursor: pointer; font-weight: 900; z-index: 10; }
+  .modal-inner { padding: 1.4rem; clear: both; }
+  .modal-header { display: flex; gap: 1.2rem; margin-bottom: 1.1rem; }
+  .modal-poster { width: 115px; flex-shrink: 0; border: var(--border); border-radius: var(--radius); object-fit: cover; aspect-ratio: 2/3; }
+  .modal-title { font-family: 'Bangers', cursive; font-size: 1.65rem; letter-spacing: 1px; line-height: 1.1; margin-bottom: .4rem; }
+  .modal-tags { display: flex; gap: .35rem; flex-wrap: wrap; margin-bottom: .65rem; }
+  .modal-desc { font-size: .88rem; line-height: 1.65; color: #333; }
+  .modal-scores { display: flex; gap: 1rem; margin-top: .65rem; flex-wrap: wrap; font-size: .82rem; }
+  .modal-scores strong { color: var(--red); }
+  .modal-btns { margin-top: 1rem; display: flex; gap: .65rem; flex-wrap: wrap; }
+  .modal-btns a { padding: .42rem 1.1rem; border: 2px solid var(--ink); border-radius: 3px; font-weight: 700; font-size: .82rem; text-decoration: none; }
+
+  /* LOAD MORE */
+  .load-more-wrap { text-align: center; margin: 1.5rem 0; }
+  .load-more-btn {
+    background: var(--ink);
+    color: var(--yellow);
+    border: 3px solid var(--ink);
+    padding: .62rem 2rem;
+    font-family: 'Bangers', cursive;
+    font-size: 1.15rem;
+    letter-spacing: 2px;
+    cursor: pointer;
+    box-shadow: 5px 5px 0 var(--red);
+    border-radius: var(--radius);
+    transition: transform .15s, box-shadow .15s;
+  }
+  .load-more-btn:hover { transform: translate(-2px,-2px); box-shadow: 7px 7px 0 var(--red); }
+
+  .empty-state { text-align: center; padding: 3rem 1rem; color: #aaa; }
+  .empty-state big { font-family: 'Bangers', cursive; font-size: 3rem; display: block; color: #ddd; margin-bottom: .5rem; }
+
+  footer { background: var(--ink); color: #555; text-align: center; padding: 1.1rem; font-size: .76rem; margin-top: 2rem; }
+  footer a { color: var(--yellow); text-decoration: none; }
+
+  @media (max-width: 640px) {
+    .anime-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: .8rem; }
+    .hero h1 { font-size: 2rem; }
+    .logo { font-size: 1.5rem; }
+    .header-badge { display: none; }
+    .modal-header { flex-direction: column; }
+    .modal-poster { width: 100%; max-width: 140px; }
+    .filter-group-label { min-width: 50px; font-size: .65rem; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="logo">Animé<span>VF</span></div>
+    <div class="search-wrap">
+      <span class="search-ico">🔍</span>
+      <input type="text" id="searchInput" placeholder="Rechercher un animé…" autocomplete="off">
+    </div>
+    <div class="header-badge" id="totalBadge">Chargement…</div>
+  </div>
+</header>
+
+<div class="progress-wrap hidden" id="progressWrap">
+  <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+  <span class="progress-count" id="progressCount">0</span>
+  <span class="progress-text" id="progressText">animés chargés…</span>
+  <button class="stop-btn" id="pauseBtn" style="margin-right:.4rem">⏸ Pause</button>
+  <button class="stop-btn" id="stopBtn" style="background:#555">⏹ Arrêter</button>
+</div>
+
+<div class="resume-bar" id="resumeBar">
+  <span class="resume-bar-text">⏹ Chargement arrêté — <strong id="resumeCount">0</strong> animés chargés</span>
+  <button class="resume-bar-btn" id="resumeBtn">▶ Reprendre le chargement</button>
+  <button class="resume-discard-btn" id="discardBtn">✕ Abandonner</button>
+</div>
+
+<section class="hero">
+  <div class="hero-content">
+    <h1>CATALOGUE ANIMÉ VF</h1>
+    <p>Tous les animés doublés en français — populaires et obscurs — mis à jour automatiquement</p>
+    <div class="hero-stats">
+      <div class="stat"><div class="stat-num" id="statTotal">—</div><div class="stat-label">Animés</div></div>
+      <div class="stat"><div class="stat-num" id="statShown">—</div><div class="stat-label">Affichés</div></div>
+      <div class="stat"><div class="stat-num" id="statPages">—</div><div class="stat-label">Pages MAL</div></div>
+      <div class="stat"><div class="stat-num" id="statUpdate">—</div><div class="stat-label">MAJ</div></div>
+    </div>
+  </div>
+</section>
+
+<div class="filters-section">
+  <!-- Genres -->
+  <div class="filter-group">
+    <span class="filter-group-label">Genre</span>
+    <div class="filter-pills" id="genrePills">
+      <button class="fpill active" data-genre="all">Tous</button>
+      <button class="fpill" data-genre="Action">Action</button>
+      <button class="fpill" data-genre="Adventure">Aventure</button>
+      <button class="fpill" data-genre="Comedy">Comédie</button>
+      <button class="fpill" data-genre="Fantasy">Fantasy</button>
+      <button class="fpill" data-genre="Romance">Romance</button>
+      <button class="fpill" data-genre="Sci-Fi">Sci-Fi</button>
+      <button class="fpill" data-genre="Sports">Sports</button>
+      <button class="fpill" data-genre="Horror">Horreur</button>
+      <button class="fpill" data-genre="Mystery">Mystère</button>
+      <button class="fpill" data-genre="Drama">Drame</button>
+      <button class="fpill" data-genre="Slice of Life">Tranche de vie</button>
+      <button class="fpill" data-genre="Supernatural">Surnaturel</button>
+      <button class="fpill" data-genre="Thriller">Thriller</button>
+    </div>
+  </div>
+
+  <!-- Thèmes -->
+  <div class="filter-group">
+    <span class="filter-group-label">Thème</span>
+    <div class="filter-pills" id="themePills">
+      <button class="fpill theme active" data-theme="all">Tous</button>
+      <button class="fpill theme" data-theme="Isekai">Isekai</button>
+      <button class="fpill theme" data-theme="Shonen">Shōnen</button>
+      <button class="fpill theme" data-theme="Seinen">Seinen</button>
+      <button class="fpill theme" data-theme="Shoujo">Shōjo</button>
+      <button class="fpill theme" data-theme="Mecha">Mecha</button>
+      <button class="fpill theme" data-theme="Magic">Magie</button>
+      <button class="fpill theme" data-theme="School">École</button>
+      <button class="fpill theme" data-theme="Martial Arts">Arts martiaux</button>
+      <button class="fpill theme" data-theme="Super Power">Super-pouvoirs</button>
+      <button class="fpill theme" data-theme="Military">Militaire</button>
+      <button class="fpill theme" data-theme="Music">Musique</button>
+      <button class="fpill theme" data-theme="Historical">Historique</button>
+      <button class="fpill theme" data-theme="Psychological">Psychologique</button>
+      <button class="fpill theme" data-theme="Vampire">Vampire</button>
+      <button class="fpill theme" data-theme="Harem">Harem</button>
+      <button class="fpill theme" data-theme="Game">Jeux vidéo</button>
+    </div>
+  </div>
+
+  <!-- Nouveautés -->
+  <div class="filter-group">
+    <span class="filter-group-label">Nouveaux</span>
+    <div class="filter-pills" id="newsPills">
+      <button class="fpill news active" data-news="all">Tous</button>
+      <button class="fpill news" data-news="airing">🔴 En cours</button>
+      <button class="fpill news" data-news="upcoming">🗓️ Annoncés</button>
+      <button class="fpill news" data-news="new_season">✨ Nouvelle saison</button>
+      <button class="fpill news" data-news="recent">📅 Récents (1 an)</button>
+    </div>
+  </div>
+
+  <!-- Tri + Actualiser -->
+  <div class="filter-group" style="margin-bottom:.3rem">
+    <span class="filter-group-label">Trier</span>
+    <select class="sort-select" id="sortSelect">
+      <option value="members">Popularité ↓</option>
+      <option value="score">Note ↓</option>
+      <option value="title">Titre A→Z</option>
+      <option value="year">Année ↓</option>
+    </select>
+    <div class="toolbar-right">
+      <button class="refresh-btn" id="refreshBtn">
+        <span class="spin" id="refreshIcon">↺</span> Actualiser
+      </button>
+    </div>
+  </div>
+</div>
+
+<main class="main">
+  <div class="section-title" id="sectionTitle">Animés VF</div>
+  <div class="anime-grid" id="animeGrid"></div>
+  <div class="load-more-wrap" id="loadMoreWrap" style="display:none">
+    <button class="load-more-btn" id="loadMoreBtn">CHARGER PLUS</button>
+  </div>
+  <div class="empty-state" id="emptyState" style="display:none">
+    <big>( ˘︹˘ )</big>Aucun animé trouvé pour cette recherche.
+  </div>
+</main>
+
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <button class="modal-close" id="modalClose">✕</button>
+    <div class="modal-inner" id="modalContent"></div>
+  </div>
+</div>
+
+<footer>
+  <p>AniméVF · Données <a href="https://jikan.moe" target="_blank">Jikan API</a> (MyAnimeList) · Cache 6h — se met à jour automatiquement</p>
+  <p style="margin-top:.3rem">Ce site référence uniquement les métadonnées publiques. Il ne propose pas de streaming.</p>
+</footer>
+
+<script>
+const JIKAN = 'https://api.jikan.moe/v4';
+const CACHE_KEY = 'animevf_full_v12_fr';
+const CACHE_TTL = 6 * 60 * 60 * 1000;
+const PAGE_SIZE = 28;
+const DELAY_MS = 700;
+
+let allAnime = [];
+let filtered = [];
+let shown = 0;
+let activeGenre = 'all';
+let activeTheme = 'all';
+let sortMode = 'members';
+let searchQ = '';
+let activeNews = 'all';
+let fetchRunning = false;
+let stopFetch = false;
+let pauseFetch = false;
+let pagesFetched = 0;
+let totalPagesEst = 0;
+
+// ── Cache ──
+function getCache() {
+  try {
+    const raw = localStorage.getItem(CACHE_KEY);
+    if (!raw) return null;
+    const { ts, data } = JSON.parse(raw);
+    if (Date.now() - ts > CACHE_TTL) return null;
+    return data;
+  } catch { return null; }
+}
+function setCache(data) {
+  try {
+    localStorage.setItem(CACHE_KEY, JSON.stringify({ ts: Date.now(), data }));
+  } catch {
+    try {
+      localStorage.removeItem(CACHE_KEY);
+      localStorage.setItem(CACHE_KEY, JSON.stringify({ ts: Date.now(), data: data.slice(0,2000) }));
+    } catch {}
+  }
+}
+
+// ── Utilitaires ──
+function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+function esc(s) {
+  return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+async function fetchPage(url, retries = 4) {
+  for (let i = 0; i < retries; i++) {
+    try {
+      const res = await fetch(url);
+      if (res.status === 429) { await sleep(2800 + i * 1000); continue; }
+      if (res.status === 404) return null;
+      if (!res.ok) throw new Error(res.status);
+      return await res.json();
+    } catch {
+      if (i === retries - 1) return null;
+      await sleep(1200 * (i + 1));
+    }
+  }
+  return null;
+}
+
+// ── Dictionnaire de titres français connus ──
+const FR_TITLES = {
+  // Shonen / Aventure
+  'Naruto': 'Naruto',
+  'Naruto: Shippuuden': 'Naruto Shippuden',
+  'Boruto: Naruto Next Generations': 'Boruto : Naruto la prochaine génération',
+  'One Piece': 'One Piece',
+  'Dragon Ball': 'Dragon Ball',
+  'Dragon Ball Z': 'Dragon Ball Z',
+  'Dragon Ball Super': 'Dragon Ball Super',
+  'Dragon Ball GT': 'Dragon Ball GT',
+  'Fullmetal Alchemist': 'Fullmetal Alchemist',
+  'Fullmetal Alchemist: Brotherhood': 'Fullmetal Alchemist : Brotherhood',
+  'Bleach': 'Bleach',
+  'Bleach: Sennen Kessen-hen': 'Bleach : La Guerre des Mille Ans',
+  'Hunter x Hunter': 'Hunter x Hunter',
+  'Hunter x Hunter (2011)': 'Hunter x Hunter (2011)',
+  'Fairy Tail': 'Fairy Tail',
+  'Sword Art Online': 'Sword Art Online',
+  'Attack on Titan': 'L\'Attaque des Titans',
+  'Shingeki no Kyojin': 'L\'Attaque des Titans',
+  'Shingeki no Kyojin Season 2': 'L\'Attaque des Titans Saison 2',
+  'Shingeki no Kyojin Season 3': 'L\'Attaque des Titans Saison 3',
+  'Shingeki no Kyojin: The Final Season': 'L\'Attaque des Titans : Saison Finale',
+  'Demon Slayer: Kimetsu no Yaiba': 'Demon Slayer : Le Tueur de Démons',
+  'Kimetsu no Yaiba': 'Demon Slayer : Le Tueur de Démons',
+  'My Hero Academia': 'My Hero Academia',
+  'Boku no Hero Academia': 'My Hero Academia',
+  'Jujutsu Kaisen': 'Jujutsu Kaisen',
+  'Black Clover': 'Black Clover',
+  'Haikyuu!!': 'Haikyu !!',
+  'Haikyuu!! Second Season': 'Haikyu !! Saison 2',
+  'Haikyuu!! 3rd Season': 'Haikyu !! Saison 3',
+  'Haikyuu!! 4th Season': 'Haikyu !! Saison 4',
+  'Kuroko no Basket': 'Kuroko\'s Basketball',
+  'Inuyasha': 'Inuyasha',
+  'Yowamushi Pedal': 'Yowamushi Pedal',
+  'Slam Dunk': 'Slam Dunk',
+  'Katekyo Hitman Reborn!': 'Reborn !',
+  'Toriko': 'Toriko',
+  'Beelzebub': 'Beelzebub',
+  'The Seven Deadly Sins': 'Les Sept Péchés Capitaux',
+  'Nanatsu no Taizai': 'Les Sept Péchés Capitaux',
+  'Nanatsu no Taizai: Kamigami no Gekirin': 'Les Sept Péchés Capitaux : La Colère des Dieux',
+  'Nanatsu no Taizai: Fundo no Shinpan': 'Les Sept Péchés Capitaux : Le Jugement de la Colère',
+  'Dr. Stone': 'Dr. Stone',
+  'Dr. Stone: New World': 'Dr. Stone : Nouveau Monde',
+  'Black Clover': 'Black Clover',
+  'The Rising of the Shield Hero': 'Bouclier Héros',
+  'Tate no Yuusha no Nariagari': 'L\'Ascension du Bouclier Héros',
+  'That Time I Got Reincarnated as a Slime': 'Ainsi fut-il rebaptisé Slime',
+  'Tensei shitara Slime Datta Ken': 'Ainsi fut-il rebaptisé Slime',
+  'No Game No Life': 'No Game No Life',
+  'Re:Zero kara Hajimeru Isekai Seikatsu': 'Re:Zero – Repartir à zéro dans un autre monde',
+  'Overlord': 'Overlord',
+  'Sword Art Online II': 'Sword Art Online II',
+  'Sword Art Online: Alicization': 'Sword Art Online : Alicization',
+  // Sports
+  'Hajime no Ippo': 'Ippo – La rage de vaincre',
+  'Captain Tsubasa (2018)': 'Olive & Tom (2018)',
+  'Captain Tsubasa': 'Olive & Tom',
+  // Mecha / SF
+  'Neon Genesis Evangelion': 'Neon Genesis Evangelion',
+  'Code Geass: Hangyaku no Lelouch': 'Code Geass : Lelouch of the Rebellion',
+  'Gurren Lagann': 'Gurren Lagann',
+  'Tengen Toppa Gurren Lagann': 'Gurren Lagann',
+  'Mobile Suit Gundam': 'Mobile Suit Gundam',
+  'Macross': 'Robotech / Macross',
+  // Seinen / Seinen
+  'Berserk': 'Berserk',
+  'Tokyo Ghoul': 'Tokyo Ghoul',
+  'Parasyte: The Maxim': 'Parasite – La Maxime',
+  'Kiseijuu: Sei no Kakuritsu': 'Parasite – La Maxime',
+  'Vinland Saga': 'Vinland Saga',
+  'Death Note': 'Death Note',
+  'Cowboy Bebop': 'Cowboy Bebop',
+  'Trigun': 'Trigun',
+  'Hellsing': 'Hellsing',
+  'Hellsing Ultimate': 'Hellsing Ultimate',
+  // Classiques / Enfants
+  'Dragon Ball Z Movie 1: Dead Zone': 'Dragon Ball Z : Le Monde des Morts',
+  'Saint Seiya': 'Les Chevaliers du Zodiaque',
+  'Saint Seiya: Knights of the Zodiac': 'Les Chevaliers du Zodiaque',
+  'Dragon Ball Z: Battle of Gods': 'Dragon Ball Z : La Bataille des Dieux',
+  'Doraemon': 'Doraemon',
+  'Digimon Adventure': 'Digimon Adventure',
+  'Digimon Adventure 02': 'Digimon Adventure 02',
+  'Digimon Tamers': 'Digimon Tamers',
+  'Sailor Moon': 'Sailor Moon',
+  'Bishoujo Senshi Sailor Moon': 'Sailor Moon',
+  'Pokemon': 'Pokémon',
+  'Pokemon: Indigo League': 'Pokémon : La Ligue Indigo',
+  'Yu-Gi-Oh!': 'Yu-Gi-Oh !',
+  'Yu☆Gi☆Oh!': 'Yu-Gi-Oh !',
+  'Cardcaptor Sakura': 'Sakura, Chasseuse de Cartes',
+  'Majokko Megu-chan': 'Megu la petite sorcière',
+  'Ranma ½': 'Ranma ½',
+  'Ranma 1/2': 'Ranma ½',
+  // Autres
+  'Steins;Gate': 'Steins;Gate',
+  'Violet Evergarden': 'Violet Evergarden',
+  'A Silent Voice': 'Une Voix Silencieuse',
+  'Koe no Katachi': 'Une Voix Silencieuse',
+  'Your Name.': 'Your Name.',
+  'Kimi no Na wa.': 'Your Name.',
+  'Spirited Away': 'Le Voyage de Chihiro',
+  'Howl\'s Moving Castle': 'Le Château Ambulant',
+  'Princess Mononoke': 'Princesse Mononoké',
+  'My Neighbor Totoro': 'Mon Voisin Totoro',
+  'Grave of the Fireflies': 'Le Tombeau des Lucioles',
+  'Nausicaä of the Valley of the Wind': 'Nausicaä de la Vallée du Vent',
+  'Castle in the Sky': 'Le Château dans le Ciel',
+  'Kiki\'s Delivery Service': 'Kiki la Petite Sorcière',
+  'Porco Rosso': 'Porco Rosso',
+  'The Wind Rises': 'Le Vent se Lève',
+  'Lupin III': 'Lupin III',
+  'Lupin III Part II': 'Lupin III – Partie 2',
+  'City Hunter': 'Nicky Larson',
+  'Nicky Larson': 'Nicky Larson',
+  'Ken le Survivant': 'Ken le Survivant',
+  'Hokuto no Ken': 'Ken le Survivant',
+  'Fist of the North Star': 'Ken le Survivant',
+  'Captain Harlock': 'Albator',
+  'Space Pirate Captain Harlock': 'Albator',
+  'Galaxy Express 999': 'Galaxy Express 999',
+  'Mazinger Z': 'Mazinger Z',
+  'Goldorak': 'Goldorak',
+  'UFO Robot Grendizer': 'Goldorak',
+  'Candy Candy': 'Candy',
+  'Versailles no Bara': 'Lady Oscar',
+  'The Rose of Versailles': 'Lady Oscar',
+  'Lady Oscar': 'Lady Oscar',
+};
+
+// ── Extraire la clé de base d'une série (sans numéro de saison) ──
+function getBaseTitle(title) {
+  let t = title;
+  // Retirer les suffixes de saison/partie en boucle jusqu'à ce qu'il n'y en ait plus
+  const suffixRe = /\s*[:\-]?\s*(Season\s*\d+|\d+(st|nd|rd|th)\s*Season|Part\s*[IVX\d]+|Saison\s*\d+|Cour\s*\d+|Chapter\s*\w+|Final\s*Season|The\s*Final\s*Season|Movie\s*\d*|OVA|Specials?|\(\d{4}\)|[IVX]{1,4}|\d+)(\s*Part\s*[IVX\d]+)?$/i;
+  let prev = '';
+  while (t !== prev) {
+    prev = t;
+    t = t.replace(suffixRe, '').replace(/\s*:\s*$/, '').trim();
+  }
+  return t;
+}
+
+// ── Normaliser un titre pour la comparaison (retire accents, ponctuation, casse) ──
+function normalizeKey(title) {
+  return getBaseTitle(title)
+    .toLowerCase()
+    .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^a-z0-9\s]/g, '')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+// Table de synonymes : ramène plusieurs titres (JP, EN, FR) vers une même clé canonique
+const SERIES_ALIASES = {
+  'shingeki no kyojin': 'attack on titan',
+  'lattaque des titans': 'attack on titan',
+  'kimetsu no yaiba': 'demon slayer',
+  'demon slayer kimetsu no yaiba': 'demon slayer',
+  'boku no hero academia': 'my hero academia',
+  'nanatsu no taizai': 'seven deadly sins',
+  'the seven deadly sins': 'seven deadly sins',
+  'les sept peches capitaux': 'seven deadly sins',
+  'tensei shitara slime datta ken': 'slime isekai',
+  'that time i got reincarnated as a slime': 'slime isekai',
+  'tate no yuusha no nariagari': 'shield hero',
+  'the rising of the shield hero': 'shield hero',
+  'rezero kara hajimeru isekai seikatsu': 'rezero',
+  're zero starting life in another world': 'rezero',
+  'fullmetal alchemist brotherhood': 'fullmetal alchemist brotherhood',
+  'hagane no renkinjutsushi': 'fullmetal alchemist',
+  'kuroko no basket': 'kuroko basketball',
+  'kurokos basketball': 'kuroko basketball',
+  'haikyuu': 'haikyuu',
+  'hyouka': 'hyouka',
+  'tengen toppa gurren lagann': 'gurren lagann',
+  'hokuto no ken': 'fist of the north star',
+  'ufo robot grendizer': 'goldorak',
+  'space pirate captain harlock': 'captain harlock',
+  'bishoujo senshi sailor moon': 'sailor moon',
+  'bishoujo senshi sera mun': 'sailor moon',
+  'captain tsubasa': 'captain tsubasa',
+  'captain tsubasa 2018': 'captain tsubasa',
+  'sword art online alicization': 'sword art online alicization',
+  'bleach sennen kessen hen': 'bleach sennen kessen',
+  'code geass hangyaku no lelouch': 'code geass',
+  'code geass lelouch of the rebellion': 'code geass',
+  'dragonball': 'dragon ball',
+  'dragon ball z': 'dragon ball z',
+  'dragon ball super': 'dragon ball super',
+  'dragon ball gt': 'dragon ball gt',
+};
+
+function getCanonicalKey(title) {
+  const norm = normalizeKey(title);
+  return SERIES_ALIASES[norm] || norm;
+}
+
+function getFrenchTitle(a) {
+  const candidates = [
+    a.title,
+    a.title_english,
+    ...(a.title_synonyms || []),
+  ].filter(Boolean);
+
+  // Chercher dans le dictionnaire français
+  for (const t of candidates) {
+    if (FR_TITLES[t]) return FR_TITLES[t];
+  }
+  // Chercher aussi la clé de base
+  for (const t of candidates) {
+    const base = getBaseTitle(t);
+    if (FR_TITLES[base]) return FR_TITLES[base];
+  }
+
+  // Sinon utiliser le titre japonais romanisé ou le titre anglais
+  return a.title || a.title_english || '?';
+}
+
+function norm(a) {
+  // Générer une accroche courte depuis le synopsis
+  let synopsis = (a.synopsis || '').replace(/\[Written by MAL Rewrite\]/gi, '').trim();
+  let accroche = '';
+  if (synopsis) {
+    // Garder la première phrase ou les 120 premiers caractères
+    const firstSentence = synopsis.match(/^[^.!?]*[.!?]/);
+    accroche = firstSentence ? firstSentence[0].trim() : synopsis.slice(0, 120) + (synopsis.length > 120 ? '…' : '');
+  }
+
+  // Détecter les thèmes depuis les champs genres + themes + demographics de MAL
+  const allTags = [
+    ...(a.genres || []),
+    ...(a.themes || []),
+    ...(a.demographics || []),
+    ...(a.explicit_genres || [])
+  ].map(g => g.name);
+
+  const frTitle = getFrenchTitle(a);
+
+  // Clé canonique : on cherche la meilleure clé parmi titre JP, EN, synonymes
+  const allTitles = [a.title, a.title_english, ...(a.title_synonyms || [])].filter(Boolean);
+  // Prendre la clé canonique la plus "connue" (alias en priorité)
+  let bestKey = null;
+  for (const t of allTitles) {
+    const norm = normalizeKey(t);
+    const alias = SERIES_ALIASES[norm];
+    if (alias) { bestKey = alias; break; }
+  }
+  if (!bestKey) {
+    // Utiliser la base du titre principal
+    bestKey = normalizeKey(a.title || a.title_english || '');
+  }
+
+  const seasonEntry = {
+    id: a.mal_id,
+    titleOrig: a.title || '',
+    airedFrom: a.aired?.from || null,
+    airedTo: a.aired?.to || null,
+    status: a.status || '',
+    episodes: a.episodes || null,
+    url: a.url || `https://myanimelist.net/anime/${a.mal_id}`,
+  };
+
+  return {
+    id: a.mal_id,
+    title: frTitle,
+    titleOrig: a.title || '',
+    titleEn: a.title_english || '',
+    baseKey: bestKey,
+    image: a.images?.jpg?.large_image_url || a.images?.jpg?.image_url || '',
+    score: a.score || 0,
+    members: a.members || 0,
+    episodes: a.episodes || null,
+    year: a.year || (a.aired?.from ? new Date(a.aired.from).getFullYear() : null),
+    airedFrom: a.aired?.from || null,
+    airedTo: a.aired?.to || null,
+    airedString: a.aired?.string || null,
+    genres: (a.genres || []).map(g => g.name),
+    themes: allTags,
+    synopsis: synopsis,
+    accroche: accroche,
+    status: a.status || '',
+    type: a.type || '',
+    url: a.url || `https://myanimelist.net/anime/${a.mal_id}`,
+    seasons: [seasonEntry],
+  };
+}
+
+// ── Traduction des titres via API Claude ──
+const TITLE_CACHE_KEY = 'animevf_titles_v1';
+let titleCache = {};
+
+function loadTitleCache() {
+  try {
+    const raw = localStorage.getItem(TITLE_CACHE_KEY);
+    if (raw) titleCache = JSON.parse(raw);
+  } catch { titleCache = {}; }
+}
+
+function saveTitleCache() {
+  try {
+    localStorage.setItem(TITLE_CACHE_KEY, JSON.stringify(titleCache));
+  } catch {
+    const keys = Object.keys(titleCache);
+    keys.slice(0, Math.floor(keys.length / 2)).forEach(k => delete titleCache[k]);
+    try { localStorage.setItem(TITLE_CACHE_KEY, JSON.stringify(titleCache)); } catch {}
+  }
+}
+
+async function translateTitlesBatch(items) {
+  // items = [{id, titleJp, titleEn}]
+  const toTranslate = items.filter(i => !titleCache[i.id]);
+  if (toTranslate.length === 0) return;
+
+  const prompt = `Tu es un expert des animés japonais diffusés en France. Pour chaque animé ci-dessous, donne le titre officiel utilisé en France (doublage VF ou VF officielle). Si l'animé n'a pas de titre français officiel connu, utilise le titre anglais ou le titre japonais romanisé tel quel. Ne traduis pas littéralement — donne uniquement le titre réel utilisé par les distributeurs français.
+
+Réponds UNIQUEMENT avec un JSON valide sans markdown : {"id":"titre_fr",...}
+
+${toTranslate.map(i => `"${i.id}": titre_jp="${i.titleJp}", titre_en="${i.titleEn}"`).join('\n')}`;
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        messages: [{ role: 'user', content: prompt }]
+      })
+    });
+    if (!res.ok) return;
+    const data = await res.json();
+    const text = (data.content || []).map(c => c.text || '').join('');
+    const clean = text.replace(/```json|```/g, '').trim();
+    const parsed = JSON.parse(clean);
+    Object.assign(titleCache, parsed);
+    saveTitleCache();
+
+    // Mettre à jour les titres dans allAnime
+    for (const item of toTranslate) {
+      if (parsed[item.id]) {
+        const anime = allAnime.find(a => String(a.id) === String(item.id));
+        if (anime) anime.title = parsed[item.id];
+      }
+    }
+  } catch (e) {
+    console.warn('Traduction titre échouée:', e);
+  }
+}
+
+async function translateAllTitles() {
+  loadTitleCache();
+
+  // Appliquer les titres déjà en cache
+  let applied = 0;
+  for (const a of allAnime) {
+    if (titleCache[String(a.id)]) {
+      a.title = titleCache[String(a.id)];
+      applied++;
+    }
+  }
+  if (applied > 0) applyFilters(true);
+
+  // Traduire ceux qui n'ont pas encore de titre FR confirmé
+  // (ceux dont le titre est encore en japonais romanisé ou anglais)
+  const needsTranslation = allAnime.filter(a => {
+    if (titleCache[String(a.id)]) return false;
+    if (FR_TITLES[a.titleOrig] || FR_TITLES[a.titleEn]) return false;
+    return true; // titre non trouvé dans le dico statique
+  }).map(a => ({ id: String(a.id), titleJp: a.titleOrig, titleEn: a.titleEn || '' }));
+
+  const BATCH = 10;
+  for (let i = 0; i < needsTranslation.length; i += BATCH) {
+    await translateTitlesBatch(needsTranslation.slice(i, i + BATCH));
+    applyFilters(true);
+    await new Promise(r => setTimeout(r, 400));
+  }
+
+  setCache(allAnime);
+}
+const TRANSLATE_CACHE_KEY = 'animevf_translations_v1';
+let translationCache = {};
+
+function loadTranslationCache() {
+  try {
+    const raw = localStorage.getItem(TRANSLATE_CACHE_KEY);
+    if (raw) translationCache = JSON.parse(raw);
+  } catch { translationCache = {}; }
+}
+
+function saveTranslationCache() {
+  try {
+    localStorage.setItem(TRANSLATE_CACHE_KEY, JSON.stringify(translationCache));
+  } catch {
+    // Si trop plein, vider la moitié ancienne
+    const keys = Object.keys(translationCache);
+    keys.slice(0, Math.floor(keys.length / 2)).forEach(k => delete translationCache[k]);
+    try { localStorage.setItem(TRANSLATE_CACHE_KEY, JSON.stringify(translationCache)); } catch {}
+  }
+}
+
+async function translateBatch(items) {
+  // items = [{id, text}]
+  // On filtre ceux déjà en cache
+  const toTranslate = items.filter(i => !translationCache[i.id] && i.text && i.text.trim().length > 10);
+  if (toTranslate.length === 0) return;
+
+  const prompt = `Traduis en français ces synopsis d'animés japonais. Réponds UNIQUEMENT avec un objet JSON valide, sans markdown, sans explication. Format : {"id1":"traduction1","id2":"traduction2",...}
+
+${toTranslate.map(i => `"${i.id}": ${JSON.stringify(i.text)}`).join('\n')}`;
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        messages: [{ role: 'user', content: prompt }]
+      })
+    });
+    if (!res.ok) return;
+    const data = await res.json();
+    const text = (data.content || []).map(c => c.text || '').join('');
+    const clean = text.replace(/```json|```/g, '').trim();
+    const parsed = JSON.parse(clean);
+    Object.assign(translationCache, parsed);
+    saveTranslationCache();
+
+    // Mettre à jour les entrées dans allAnime
+    for (const item of toTranslate) {
+      if (parsed[item.id]) {
+        const anime = allAnime.find(a => String(a.id) === String(item.id));
+        if (anime) {
+          anime.synopsisFr = parsed[item.id];
+          // Extraire accroche FR depuis le synopsis FR
+          const firstSentence = parsed[item.id].match(/^[^.!?]*[.!?]/);
+          anime.accracheFr = firstSentence
+            ? firstSentence[0].trim()
+            : parsed[item.id].slice(0, 120) + (parsed[item.id].length > 120 ? '…' : '');
+        }
+      }
+    }
+  } catch (e) {
+    console.warn('Traduction échouée:', e);
+  }
+}
+
+async function translateAllSynopses() {
+  loadTranslationCache();
+
+  // Appliquer les traductions déjà en cache
+  let applied = 0;
+  for (const a of allAnime) {
+    const cached = translationCache[String(a.id)];
+    if (cached) {
+      a.synopsisFr = cached;
+      const firstSentence = cached.match(/^[^.!?]*[.!?]/);
+      a.accracheFr = firstSentence
+        ? firstSentence[0].trim()
+        : cached.slice(0, 120) + (cached.length > 120 ? '…' : '');
+      applied++;
+    }
+  }
+  // Re-render immédiatement si des traductions étaient déjà en cache
+  if (applied > 0) applyFilters(true);
+
+  // Traduire ceux sans traduction en lots de 8
+  const toTranslate = allAnime
+    .filter(a => a.synopsis && !translationCache[String(a.id)])
+    .map(a => ({ id: String(a.id), text: a.synopsis.slice(0, 400) }));
+
+  const BATCH = 8;
+  for (let i = 0; i < toTranslate.length; i += BATCH) {
+    const batch = toTranslate.slice(i, i + BATCH);
+    await translateBatch(batch);
+    applyFilters(true); // soft : ne réinitialise pas shown
+    await new Promise(r => setTimeout(r, 300));
+  }
+
+  setCache(allAnime);
+}
+
+// ── Formatage de date en français ──
+function formatDateFr(isoStr) {
+  if (!isoStr) return null;
+  try {
+    const d = new Date(isoStr);
+    if (isNaN(d)) return null;
+    return d.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
+  } catch { return null; }
+}
+
+function getAiringLabel(a) {
+  const STATUS_FR = {
+    'Finished Airing': 'Terminé',
+    'Currently Airing': 'En cours de diffusion',
+    'Not yet aired': 'À venir',
+    'On Hiatus': 'En pause',
+  };
+  if (a.status === 'Not yet aired' && a.airedFrom) {
+    return { label: `Sortie le ${formatDateFr(a.airedFrom)}`, color: '#f59e0b', dot: '🗓️' };
+  }
+  if (a.status === 'Not yet aired') {
+    return { label: 'Prochainement', color: '#f59e0b', dot: '🗓️' };
+  }
+  if (a.status === 'Currently Airing') {
+    return { label: 'En cours de diffusion', color: '#22c55e', dot: '🔴' };
+  }
+  if (a.status === 'Finished Airing') {
+    const from = formatDateFr(a.airedFrom);
+    const to   = formatDateFr(a.airedTo);
+    if (from && to) return { label: `${from} → ${to}`, color: '#888', dot: '✅' };
+    if (from)       return { label: `Depuis ${from}`,  color: '#888', dot: '✅' };
+    return { label: 'Terminé', color: '#888', dot: '✅' };
+  }
+  return { label: STATUS_FR[a.status] || a.status || '', color: '#888', dot: '📡' };
+}
+
+async function loadAll(forceRefresh = false, resumeMode = false) {
+  if (!resumeMode && !forceRefresh) {
+    const cached = getCache();
+    if (cached && cached.length > 50) {
+      allAnime = cached;
+      hideProgress();
+      applyFilters();
+      setRefreshTime();
+      // Traduire les titres et synopsis manquants depuis le cache
+      translateAllTitles();
+      translateAllSynopses();
+      return;
+    }
+  }
+
+  fetchRunning = true;
+  stopFetch = false;
+  pauseFetch = false;
+  pagesFetched = 0;
+  totalPagesEst = 0;
+
+  // En mode reprise on conserve allAnime et shown existants
+  if (!resumeMode) {
+    allAnime = [];
+    shown = 0;
+  }
+
+  document.getElementById('progressWrap').classList.remove('hidden');
+  document.getElementById('resumeBar').classList.remove('visible');
+  if (!resumeMode) document.getElementById('animeGrid').innerHTML = buildSkeletons(16);
+  document.getElementById('refreshIcon').classList.add('spinning');
+  document.getElementById('refreshBtn').disabled = true;
+
+  // Reconstruire le set des séries déjà connues pour éviter les doublons lors de la reprise
+  const seenMalId = new Set(allAnime.map(a => a.id));
+  const seenSeries = new Map(allAnime.map(a => [a.baseKey, a]));
+
+  const types = ['tv', 'movie', 'ova', 'special', 'ona'];
+
+  // En mode reprise, on repart depuis le début des types (l'API ne garde pas la page exacte)
+  // mais on saute les entrées déjà connues via seenMalId/seenSeries
+  for (const type of types) {
+    if (stopFetch) break;
+    let page = 1;
+    let hasNext = true;
+
+    while (hasNext && !stopFetch) {
+      const url = `${JIKAN}/anime?type=${type}&order_by=members&sort=desc&limit=25&page=${page}`;
+      const data = await fetchPage(url);
+
+      if (!data || !data.data) { hasNext = false; break; }
+
+      const pagination = data.pagination || {};
+      if (page === 1 && pagination.last_visible_page) {
+        totalPagesEst += Math.min(pagination.last_visible_page, 80);
+      }
+
+      for (const a of data.data) {
+        if (seenMalId.has(a.mal_id)) continue;
+        if ((a.members || 0) < 300) continue;
+        seenMalId.add(a.mal_id);
+
+        const entry = norm(a);
+        const key = entry.baseKey;
+
+        if (!seenSeries.has(key)) {
+          seenSeries.set(key, entry);
+          allAnime.push(entry);
+        } else {
+          const existing = seenSeries.get(key);
+          // Ajouter la saison à la liste des saisons de la série
+          if (!existing.seasons) existing.seasons = [];
+          // Éviter les doublons de saison
+          if (!existing.seasons.find(s => s.id === entry.id)) {
+            existing.seasons.push(entry.seasons[0]);
+          }
+          // Mettre à jour image/score/members si cette entrée est plus récente (dernière saison)
+          const entryYear = entry.year || 0;
+          const existingLastYear = existing.seasons.reduce((max, s) => {
+            const y = s.airedFrom ? new Date(s.airedFrom).getFullYear() : 0;
+            return Math.max(max, y);
+          }, 0);
+          if (entryYear >= existingLastYear) {
+            existing.image = entry.image || existing.image;
+            existing.score = entry.score || existing.score;
+            existing.status = entry.status;
+            existing.year = entry.year || existing.year;
+          }
+          if (entry.members > existing.members) {
+            existing.members = entry.members;
+          }
+        }
+      }
+
+      pagesFetched++;
+      updateProgress(pagesFetched, totalPagesEst || pagesFetched + 10, allAnime.length);
+
+      if (allAnime.length % 75 < 25) applyFilters(true);
+
+      hasNext = pagination.has_next_page === true;
+      const lastMembers = data.data[data.data.length - 1]?.members || 0;
+      if (lastMembers < 150 || page >= 60) hasNext = false;
+
+      page++;
+
+      // Gestion pause : attendre tant que pausé
+      while (pauseFetch && !stopFetch) {
+        await new Promise(r => setTimeout(r, 300));
+      }
+
+      await sleep(DELAY_MS);
+    }
+  }
+
+  setCache(allAnime);
+  fetchRunning = false;
+  hideProgress();
+  document.getElementById('refreshIcon').classList.remove('spinning');
+  document.getElementById('refreshBtn').disabled = false;
+  applyFilters();
+  setRefreshTime();
+
+  // Lancer la traduction des titres et synopsis en arrière-plan
+  translateAllTitles();
+  translateAllSynopses();
+}
+
+function updateProgress(done, total, count) {
+  const pct = total > 0 ? Math.min(100, Math.round(done / total * 100)) : 0;
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressCount').textContent = count.toLocaleString('fr-FR');
+  document.getElementById('progressText').textContent = `animés chargés · page ${done}/${total}`;
+  document.getElementById('statTotal').textContent = count.toLocaleString('fr-FR');
+  document.getElementById('statPages').textContent = done;
+  document.getElementById('totalBadge').textContent = `${count.toLocaleString('fr-FR')} animés`;
+}
+function hideProgress() { document.getElementById('progressWrap').classList.add('hidden'); }
+function setRefreshTime() {
+  document.getElementById('statUpdate').textContent = new Date().toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
+}
+
+// ── Helper dernière saison ──
+function getLastSeason(a) {
+  if (!a.seasons || a.seasons.length === 0) return a;
+  return a.seasons.reduce((last, s) => {
+    const d1 = last.airedFrom ? new Date(last.airedFrom) : new Date(0);
+    const d2 = s.airedFrom ? new Date(s.airedFrom) : new Date(0);
+    return d2 >= d1 ? s : last;
+  });
+}
+
+// ── Filtres ──
+function applyFilters(softRefresh = false) {
+  let arr = [...allAnime];
+
+  if (activeGenre !== 'all') {
+    arr = arr.filter(a => a.genres.includes(activeGenre));
+  }
+  if (activeTheme !== 'all') {
+    arr = arr.filter(a => a.themes.includes(activeTheme));
+  }
+  if (activeNews !== 'all') {
+    const now = new Date();
+    const oneYearAgo = new Date(now.getFullYear() - 1, now.getMonth(), now.getDate());
+    if (activeNews === 'airing') {
+      arr = arr.filter(a => {
+        const last = getLastSeason(a);
+        return last.status === 'Currently Airing';
+      });
+    } else if (activeNews === 'upcoming') {
+      arr = arr.filter(a => {
+        const last = getLastSeason(a);
+        return last.status === 'Not yet aired';
+      });
+    } else if (activeNews === 'new_season') {
+      arr = arr.filter(a => {
+        if (!a.seasons || a.seasons.length < 2) return false;
+        const last = getLastSeason(a);
+        return last.status === 'Currently Airing' || last.status === 'Not yet aired';
+      });
+    } else if (activeNews === 'recent') {
+      arr = arr.filter(a => {
+        const last = getLastSeason(a);
+        if (!last.airedFrom) return false;
+        return new Date(last.airedFrom) >= oneYearAgo;
+      });
+    }
+  }
+  if (searchQ) {
+    const q = searchQ.toLowerCase();
+    arr = arr.filter(a =>
+      a.title.toLowerCase().includes(q) ||
+      (a.titleEn || '').toLowerCase().includes(q) ||
+      a.accroche.toLowerCase().includes(q)
+    );
+  }
+
+  if (sortMode === 'score') arr.sort((a,b) => b.score - a.score);
+  else if (sortMode === 'members') arr.sort((a,b) => b.members - a.members);
+  else if (sortMode === 'title') arr.sort((a,b) => a.title.localeCompare(b.title, 'fr'));
+  else if (sortMode === 'year') arr.sort((a,b) => (b.year||0) - (a.year||0));
+
+  filtered = arr;
+
+  if (softRefresh) {
+    // Mise à jour douce : on rerend uniquement les cartes déjà affichées sans reset de shown
+    const grid = document.getElementById('animeGrid');
+    const slice = filtered.slice(0, shown);
+    grid.innerHTML = slice.map(buildCard).join('');
+  } else {
+    shown = 0;
+    renderCards(true);
+  }
+  updateStats();
+}
+
+function updateStats() {
+  document.getElementById('statTotal').textContent = allAnime.length.toLocaleString('fr-FR');
+  document.getElementById('statShown').textContent = shown.toLocaleString('fr-FR');
+  document.getElementById('totalBadge').textContent = `${allAnime.length.toLocaleString('fr-FR')} animés`;
+
+  let label = 'Animés VF';
+  if (activeGenre !== 'all' && activeTheme !== 'all') label = `${activeGenre} · ${activeTheme}`;
+  else if (activeGenre !== 'all') label = activeGenre;
+  else if (activeTheme !== 'all') label = activeTheme;
+  document.getElementById('sectionTitle').textContent = `${label} (${filtered.length.toLocaleString('fr-FR')})`;
+}
+
+// ── Rendu des cartes ──
+function renderCards(reset = false) {
+  const grid = document.getElementById('animeGrid');
+  const empty = document.getElementById('emptyState');
+  const lmWrap = document.getElementById('loadMoreWrap');
+
+  if (filtered.length === 0 && !fetchRunning) {
+    grid.innerHTML = '';
+    empty.style.display = 'block';
+    lmWrap.style.display = 'none';
+    return;
+  }
+  empty.style.display = 'none';
+
+  const slice = filtered.slice(shown, shown + PAGE_SIZE);
+  const html = slice.map(buildCard).join('');
+  if (reset) grid.innerHTML = html;
+  else grid.insertAdjacentHTML('beforeend', html);
+
+  shown += slice.length;
+  lmWrap.style.display = shown < filtered.length ? 'block' : 'none';
+  document.getElementById('statShown').textContent = shown.toLocaleString('fr-FR');
+}
+
+function buildCard(a) {
+  const imgPart = a.image
+    ? `<img class="card-img" src="${esc(a.image)}" alt="${esc(a.title)}" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">`
+    : '';
+  const ph = `<div class="card-img-ph" style="${a.image ? 'display:none' : ''}">VF</div>`;
+  const score = a.score ? `<div class="score-badge">⭐${a.score.toFixed(1)}</div>` : '';
+  const yearTag = a.year ? `<span class="tag year">${a.year}</span>` : '';
+  const epsTag = a.episodes ? `<span class="tag eps">${a.episodes}ép</span>` : '';
+  const typeTag = a.type ? `<span class="tag type">${esc(a.type)}</span>` : '';
+  const genreTag = a.genres[0] ? `<span class="tag">${esc(a.genres[0])}</span>` : '';
+
+  // Badge de diffusion sur la carte — utiliser la dernière saison
+  const lastSeason = getLastSeason(a);
+  const lastStatus = lastSeason.status || a.status;
+  const lastAiredFrom = lastSeason.airedFrom || a.airedFrom;
+  const airing = getAiringLabel({ status: lastStatus, airedFrom: lastAiredFrom });
+  const seasonCount = a.seasons && a.seasons.length > 1 ? `<div style="font-size:.68rem;color:#888;font-weight:700;margin-bottom:.15rem">${a.seasons.length} saisons</div>` : '';
+  const airingBadge = lastStatus === 'Currently Airing'
+    ? `${seasonCount}<div style="font-size:.7rem;color:#22c55e;font-weight:700;margin-bottom:.25rem">🔴 En cours</div>`
+    : lastStatus === 'Not yet aired'
+    ? `${seasonCount}<div style="font-size:.7rem;color:#f59e0b;font-weight:700;margin-bottom:.25rem">🗓️ ${esc(airing.label)}</div>`
+    : seasonCount;
+  // Accroche visible directement sur la carte (FR si disponible, sinon EN)
+  const accrocheText = a.accracheFr || a.accroche;
+  const accroche = accrocheText
+    ? `<div class="card-synopsis">${esc(accrocheText)}</div>`
+    : `<div class="card-synopsis" style="color:#bbb;font-style:italic">Traduction en cours…</div>`;
+
+  return `
+    <div class="card" onclick="openModal(${a.id})">
+      <div class="card-img-wrap">
+        ${imgPart}${ph}
+        <div class="vf-badge">🇫🇷 VF</div>
+        ${score}
+      </div>
+      <div class="card-body">
+        <div class="card-title">${esc(a.title)}</div>
+        ${airingBadge}
+        ${accroche}
+        <div class="card-meta">${yearTag}${epsTag}${typeTag}${genreTag}</div>
+      </div>
+    </div>`;
+}
+
+function buildSkeletons(n) {
+  return Array(n).fill(0).map(() => `
+    <div class="card sk">
+      <div class="sk-img"></div>
+      <div class="card-body">
+        <div class="sk-line"></div>
+        <div class="sk-line sm"></div>
+        <div class="sk-line"></div>
+        <div class="sk-line xs"></div>
+      </div>
+    </div>`).join('');
+}
+
+// ── Modal ──
+function openModal(id) {
+  const a = allAnime.find(x => x.id === id);
+  if (!a) return;
+  const genres = a.genres.map(g => `<span class="tag">${esc(g)}</span>`).join('');
+  const themes = a.themes.filter(t => !a.genres.includes(t)).slice(0,6).map(t => `<span class="tag" style="background:#e8f0ff;color:#1a2fff;border-color:#c0ccff">${esc(t)}</span>`).join('');
+  const img = a.image ? `<img class="modal-poster" src="${esc(a.image)}" alt="${esc(a.title)}">` : '';
+  const rawDesc = a.synopsisFr || a.synopsis || '';
+  const desc = rawDesc
+    ? rawDesc.slice(0, 600) + (rawDesc.length > 600 ? '…' : '')
+    : 'Synopsis non disponible.';
+
+  const airing = getAiringLabel(a);
+  const airingHtml = airing.label
+    ? `<span style="color:${airing.color}">${airing.dot} ${esc(airing.label)}</span>`
+    : '';
+
+  // Construire le bloc saisons trié par date
+  let seasonsHtml = '';
+  if (a.seasons && a.seasons.length > 0) {
+    const sorted = [...a.seasons].sort((x, y) => {
+      const dx = x.airedFrom ? new Date(x.airedFrom) : new Date(9999,0);
+      const dy = y.airedFrom ? new Date(y.airedFrom) : new Date(9999,0);
+      return dx - dy;
+    });
+    const rows = sorted.map((s, i) => {
+      const label = sorted.length === 1 ? '' : `Saison ${i + 1}`;
+      const from = formatDateFr(s.airedFrom);
+      const to   = formatDateFr(s.airedTo);
+      let dateStr = '';
+      if (s.status === 'Not yet aired' && from) dateStr = `🗓️ Sortie le ${from}`;
+      else if (s.status === 'Currently Airing') dateStr = from ? `🔴 En cours depuis ${from}` : '🔴 En cours';
+      else if (from && to) dateStr = `${from} → ${to}`;
+      else if (from) dateStr = `Depuis ${from}`;
+      else dateStr = 'Date inconnue';
+      const eps = s.episodes ? `${s.episodes} ép.` : '';
+      return `<tr>
+        <td style="padding:.18rem .5rem .18rem 0;font-weight:700;white-space:nowrap;color:var(--ink);font-size:.8rem">${label}</td>
+        <td style="padding:.18rem .5rem;font-size:.78rem;color:#555;white-space:nowrap">${dateStr}</td>
+        <td style="padding:.18rem 0;font-size:.75rem;color:#999">${eps}</td>
+      </tr>`;
+    }).join('');
+    seasonsHtml = `<div style="margin-top:.8rem">
+      <div style="font-weight:900;font-size:.72rem;text-transform:uppercase;letter-spacing:1px;color:#999;margin-bottom:.35rem">Diffusion</div>
+      <table style="border-collapse:collapse;width:100%">${rows}</table>
+    </div>`;
+  }
+
+  document.getElementById('modalContent').innerHTML = `
+    <div class="modal-header">
+      ${img}
+      <div>
+        <div class="modal-title">${esc(a.title)}</div>
+        ${a.titleOrig && a.titleOrig !== a.title ? `<div style="color:#888;font-size:.8rem;margin-bottom:.4rem">🇯🇵 ${esc(a.titleOrig)}</div>` : ''}
+        <div class="modal-tags">
+          <span class="tag" style="background:var(--red);color:#fff;border-color:#a00">🇫🇷 VF</span>
+          ${a.year ? `<span class="tag year">${a.year}</span>` : ''}
+          ${a.episodes ? `<span class="tag eps">${a.episodes} épisodes</span>` : ''}
+          ${a.type ? `<span class="tag type">${esc(a.type)}</span>` : ''}
+          ${genres}
+          ${themes}
+        </div>
+        <div class="modal-scores">
+          ${a.score ? `<span>⭐ Note : <strong>${a.score}/10</strong></span>` : ''}
+          ${a.members ? `<span>👥 <strong>${(a.members/1000).toFixed(1)}k</strong> membres</span>` : ''}
+          ${airingHtml}
+        </div>
+        ${seasonsHtml}
+      </div>
+    </div>
+    <p class="modal-desc" id="modalDesc">${esc(desc)}</p>
+    ${!a.synopsisFr && a.synopsis ? `<p style="font-size:.75rem;color:#aaa;margin-top:.4rem;font-style:italic" id="translateNote">🔄 Traduction en cours…</p>` : ''}
+    <div class="modal-btns">
+      <a href="${esc(a.url)}" target="_blank" style="background:var(--blue);color:#fff">MyAnimeList ↗</a>
+      <a href="https://anime-sama.fr/catalogue/${encodeURIComponent(a.title.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,''))}" target="_blank" style="background:var(--red);color:#fff">Anime-Sama ↗</a>
+    </div>`;
+  document.getElementById('modalOverlay').classList.add('open');
+
+  // Si pas encore traduit, traduire immédiatement ce synopsis
+  if (!a.synopsisFr && a.synopsis) {
+    translateBatch([{ id: String(a.id), text: a.synopsis.slice(0, 400) }]).then(() => {
+      const note = document.getElementById('translateNote');
+      const descEl = document.getElementById('modalDesc');
+      if (a.synopsisFr && descEl) {
+        const fr = a.synopsisFr.slice(0, 600) + (a.synopsisFr.length > 600 ? '…' : '');
+        descEl.textContent = fr;
+        if (note) note.remove();
+      }
+    });
+  }
+}
+
+// ── Événements ──
+document.getElementById('refreshBtn').addEventListener('click', () => {
+  if (!fetchRunning) {
+    document.getElementById('resumeBar').classList.remove('visible');
+    loadAll(true);
+  }
+});
+
+document.getElementById('pauseBtn').addEventListener('click', () => {
+  if (!fetchRunning) return;
+  pauseFetch = !pauseFetch;
+  const btn = document.getElementById('pauseBtn');
+  if (pauseFetch) {
+    btn.textContent = '▶ Reprendre';
+    btn.style.background = '#22c55e';
+    btn.style.color = '#fff';
+    btn.style.borderColor = '#16a34a';
+    document.getElementById('progressText').textContent = 'Chargement en pause…';
+    // Afficher les animés chargés jusqu'ici (reset complet de shown pour tout rendre)
+    shown = 0;
+    applyFilters(false);
+  } else {
+    btn.textContent = '⏸ Pause';
+    btn.style.background = '';
+    btn.style.color = '';
+    btn.style.borderColor = '';
+    document.getElementById('progressText').textContent = 'Reprise du chargement…';
+    // Masquer la grille (remettre les squelettes) pour indiquer que le chargement continue
+    document.getElementById('animeGrid').innerHTML = buildSkeletons(16);
+    shown = 0;
+  }
+});
+
+// Variables pour la reprise
+let lastFetchState = null; // sauvegarde type/page au moment de l'arrêt
+
+document.getElementById('stopBtn').addEventListener('click', () => {
+  stopFetch = true;
+  pauseFetch = false;
+  hideProgress();
+  document.getElementById('refreshIcon').classList.remove('spinning');
+  document.getElementById('refreshBtn').disabled = false;
+  document.getElementById('pauseBtn').textContent = '⏸ Pause';
+  document.getElementById('pauseBtn').style.background = '';
+  setCache(allAnime);
+  applyFilters(true); // soft : garde les cartes visibles
+  setRefreshTime();
+  // Afficher la barre de reprise
+  document.getElementById('resumeCount').textContent = allAnime.length.toLocaleString('fr-FR');
+  document.getElementById('resumeBar').classList.add('visible');
+});
+
+document.getElementById('resumeBtn').addEventListener('click', () => {
+  document.getElementById('resumeBar').classList.remove('visible');
+  loadAll(false, true); // mode reprise
+});
+
+document.getElementById('discardBtn').addEventListener('click', () => {
+  document.getElementById('resumeBar').classList.remove('visible');
+  lastFetchState = null;
+});
+document.getElementById('modalClose').addEventListener('click', () => document.getElementById('modalOverlay').classList.remove('open'));
+document.getElementById('modalOverlay').addEventListener('click', e => { if (e.target === e.currentTarget) e.currentTarget.classList.remove('open'); });
+document.getElementById('loadMoreBtn').addEventListener('click', (e) => {
+  e.preventDefault();
+  e.stopPropagation();
+  renderCards(false);
+});
+document.getElementById('sortSelect').addEventListener('change', e => { sortMode = e.target.value; applyFilters(); });
+
+// Filtres genres
+document.getElementById('genrePills').addEventListener('click', e => {
+  const btn = e.target.closest('.fpill');
+  if (!btn) return;
+  document.querySelectorAll('#genrePills .fpill').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  activeGenre = btn.dataset.genre;
+  applyFilters();
+});
+
+// Filtres nouveautés
+document.getElementById('newsPills').addEventListener('click', e => {
+  const btn = e.target.closest('.fpill');
+  if (!btn) return;
+  document.querySelectorAll('#newsPills .fpill').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  activeNews = btn.dataset.news;
+  applyFilters();
+});
+
+// Filtres thèmes
+document.getElementById('themePills').addEventListener('click', e => {
+  const btn = e.target.closest('.fpill');
+  if (!btn) return;
+  document.querySelectorAll('#themePills .fpill').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  activeTheme = btn.dataset.theme;
+  applyFilters();
+});
+
+// Recherche
+let st;
+document.getElementById('searchInput').addEventListener('input', e => {
+  clearTimeout(st);
+  st = setTimeout(() => { searchQ = e.target.value.trim(); applyFilters(); }, 280);
+});
+
+// ── Démarrage ──
+loadAll();
+</script>
+</body>
+</html>
