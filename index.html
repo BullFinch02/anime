@@ -1153,29 +1153,6 @@ function getAiringLabel(a) {
 }
 
 async function loadAll(forceRefresh = false, resumeMode = false) {
-  // Essayer d'abord de charger data.json (généré par GitHub Actions)
-  if (!resumeMode) {
-    try {
-      const res = await fetch('data.json?_=' + Date.now());
-      if (res.ok) {
-        const json = await res.json();
-        if (json && json.anime && json.anime.length > 50) {
-          allAnime = json.anime;
-          localStorage.setItem('data_json_ts', json.generatedAt || new Date().toISOString());
-          setCache(allAnime);
-          hideProgress();
-          applyFilters();
-          setRefreshTime(json.generatedAt);
-          translateAllTitles();
-          translateAllSynopses();
-          return;
-        }
-      }
-    } catch(e) {
-      console.log('data.json non disponible, chargement depuis Jikan...');
-    }
-  }
-
   if (!resumeMode && !forceRefresh) {
     const cached = getCache();
     if (cached && cached.length > 50) {
@@ -1183,6 +1160,7 @@ async function loadAll(forceRefresh = false, resumeMode = false) {
       hideProgress();
       applyFilters();
       setRefreshTime();
+      // Traduire les titres et synopsis manquants depuis le cache
       translateAllTitles();
       translateAllSynopses();
       return;
@@ -1311,60 +1289,8 @@ function updateProgress(done, total, count) {
   document.getElementById('totalBadge').textContent = `${count.toLocaleString('fr-FR')} animés`;
 }
 function hideProgress() { document.getElementById('progressWrap').classList.add('hidden'); }
-function setRefreshTime(isoDate) {
-  const d = isoDate ? new Date(isoDate) : new Date();
-  const dateStr = d.toLocaleDateString('fr-FR', { day:'2-digit', month:'2-digit' });
-  const timeStr = d.toLocaleTimeString('fr-FR', { hour:'2-digit', minute:'2-digit' });
-  document.getElementById('statUpdate').textContent = `${dateStr} ${timeStr}`;
-  const ts = d.getTime();
-  localStorage.setItem('last_refresh_ts', ts);
-  updateRefreshBtn(ts);
-}
-
-let refreshCountdownInterval = null;
-function updateRefreshBtn(forcedTs) {
-  const btn = document.getElementById('refreshBtn');
-  const cooldown = 30 * 60 * 1000;
-  // Priorité : ts forcé (depuis last_update.json) > localStorage
-  const lastTs = forcedTs || parseInt(localStorage.getItem('last_refresh_ts') || '0');
-  const elapsed = Date.now() - lastTs;
-  if (refreshCountdownInterval) clearInterval(refreshCountdownInterval);
-  if (elapsed < cooldown) {
-    const tick = () => {
-      const remaining = cooldown - (Date.now() - lastTs);
-      if (remaining <= 0) {
-        btn.disabled = false;
-        btn.title = 'Actualiser les données';
-        btn.querySelector('#refreshIcon').style.opacity = '1';
-        clearInterval(refreshCountdownInterval);
-        return;
-      }
-      const mins = Math.floor(remaining / 60000);
-      const secs = Math.floor((remaining % 60000) / 1000);
-      btn.title = `Disponible dans ${mins}m ${secs}s`;
-      btn.disabled = true;
-      btn.querySelector('#refreshIcon').style.opacity = '.4';
-    };
-    tick();
-    refreshCountdownInterval = setInterval(tick, 5000);
-  } else {
-    btn.disabled = false;
-    btn.title = 'Actualiser les données';
-    btn.querySelector('#refreshIcon').style.opacity = '1';
-  }
-}
-
-// Vérifier last_update.json au chargement de la page
-async function checkSharedCooldown() {
-  try {
-    const res = await fetch('last_update.json?_=' + Date.now());
-    if (res.ok) {
-      const json = await res.json();
-      const lastTs = new Date(json.ts).getTime();
-      localStorage.setItem('last_refresh_ts', lastTs);
-      updateRefreshBtn(lastTs);
-    }
-  } catch(e) { /* pas encore de last_update.json */ }
+function setRefreshTime() {
+  document.getElementById('statUpdate').textContent = new Date().toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
 }
 
 // ── Helper dernière saison ──
@@ -1628,32 +1554,11 @@ function openModal(id) {
 }
 
 // ── Événements ──
-document.getElementById('refreshBtn').addEventListener('click', async () => {
-  if (fetchRunning) return;
-  const btn = document.getElementById('refreshBtn');
-  btn.disabled = true;
-  // Vérifier last_update.json sur le serveur (partagé entre tous les visiteurs)
-  try {
-    const res = await fetch('last_update.json?_=' + Date.now());
-    if (res.ok) {
-      const json = await res.json();
-      const lastTs = new Date(json.ts).getTime();
-      const elapsed = Date.now() - lastTs;
-      const cooldown = 30 * 60 * 1000;
-      if (elapsed < cooldown) {
-        const mins = Math.ceil((cooldown - elapsed) / 60000);
-        alert(`Actualisation disponible dans ${mins} minute(s).
-Un autre visiteur a déjà actualisé récemment.
-Limite : 1 actualisation toutes les 30 minutes.`);
-        updateRefreshBtn(lastTs);
-        return;
-      }
-    }
-  } catch(e) {
-    // last_update.json absent = première fois, on autorise
+document.getElementById('refreshBtn').addEventListener('click', () => {
+  if (!fetchRunning) {
+    document.getElementById('resumeBar').classList.remove('visible');
+    loadAll(true);
   }
-  document.getElementById('resumeBar').classList.remove('visible');
-  loadAll(true);
 });
 
 document.getElementById('pauseBtn').addEventListener('click', () => {
@@ -1756,7 +1661,6 @@ document.getElementById('searchInput').addEventListener('input', e => {
 });
 
 // ── Démarrage ──
-checkSharedCooldown();
 loadAll();
 </script>
 </body>
